@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8" />
+	<link rel="stylesheet" type="text/css" href="styles.css" />
+</head>
+
+<body>
+	QlauncherSN:&nbsp;<input id="qsn" type="text" size="64" value="I'm qsn!"><br />
+	<button id="connect-button">Connect Metamask</button>
+	<script>
+		document.getElementById('connect-button').addEventListener('click', event => {
+			let account;
+			let button = event.target;
+			ethereum.request({ method: 'eth_requestAccounts' }).then(accounts => {
+				account = accounts[0];
+				console.log(account);
+				button.textContent = account;
+
+				ethereum.request({ method: 'eth_getBalance', params: [account, 'latest'] }).then(result => {
+					console.log(result);
+					let wei = parseInt(result, 16);
+					let balance = wei / (10 ** 18);
+					console.log(balance + " ETH");
+					console.log(document.getElementById("qsn").value)
+					alert("Bind! {" + document.getElementById("qsn").value + "} {" + account + "}")
+				});
+			});
+		});
+	</script>
+</body>
+
+</html>
